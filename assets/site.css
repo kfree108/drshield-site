@@ -20,13 +20,7 @@
      5.82:1 and is still clearly quieter than --dim (7.06:1). One token, so it
      cannot drift back apart. */
   --muted:#8b8898;
-  /* Dr. Shield is azure, per the registered brand config. This file arrived as
-     a copy of Dr. Stock's and still carried Dr. Stock's amber, which would have
-     rendered every generated /learn/ and /compare/ page on this domain in
-     another brand's colour. Recoloured by token; nothing else in the file
-     changes, and --accent-fg is added because azure needs dark text on it. */
-  --accent:#5aa9ff; --accent-rgb:90,169,255; --accent-fg:#04182e;
-  --amber:#fbbf24; --amber-rgb:251,191,36;
+  --accent:#5aa9ff; --accent-rgb:90,169,255; --amber:#fbbf24; --amber-rgb:251,191,36;
   --display:'Archivo',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
 }

@@ -10,7 +10,7 @@
   margin: 34px 0;
   padding: 20px 22px;
   border: 1px solid var(--line, #e6e4ee);
-  border-left: 3px solid var(--accent,#00ff9d);
+  border-left: 3px solid var(--accent,#5aa9ff);
   border-radius: 12px;
   background: var(--card, var(--raised, #fff));
 }
@@ -34,7 +34,7 @@
   display: inline-block;
   padding: 11px 20px;
   border-radius: 8px;
-  background: var(--accent,#00ff9d) !important;
+  background: var(--accent,#5aa9ff) !important;
   /* !important because this button is injected into host pages we do not
      control the stylesheets of. remktr.com's HubSpot theme carries
      `a:not(...):not(...)` with seven :not() clauses — specificity (0,8,1) —
@@ -53,13 +53,13 @@
 @supports (color: oklch(from red l c h)) {
   .fc-cta-btn {
     color: var(--accent-fg,
-      oklch(from var(--accent,#00ff9d) clamp(0, (l - 0.62) * -1000, 1) 0 0))
+      oklch(from var(--accent,#5aa9ff) clamp(0, (l - 0.62) * -1000, 1) 0 0))
       !important;
   }
 }
 .fc-cta-btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
 .fc-cta-btn:focus-visible {
-  outline: 2px solid var(--accent,#00ff9d);
+  outline: 2px solid var(--accent,#5aa9ff);
   outline-offset: 3px;
 }
 
@@ -135,7 +135,7 @@
    on a dark card. Tint from the card's own foreground instead. */
 .fc-pop-x:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 .fc-pop-x:focus-visible {
-  outline: 2px solid var(--accent,#00ff9d);
+  outline: 2px solid var(--accent,#5aa9ff);
   outline-offset: 2px;
 }
 
@@ -168,7 +168,7 @@
 .fc-pop-card::before{
   content:"";display:block;height:2px;
   background:linear-gradient(90deg,
-    color-mix(in srgb,var(--accent,#00ff9d) 70%,transparent),transparent 70%);
+    color-mix(in srgb,var(--accent,#5aa9ff) 70%,transparent),transparent 70%);
 }
 
 /* Scoped to .fc-pop-card, not bare, because `.fc-pop-card p` further up is
@@ -221,7 +221,7 @@
   font:inherit;font-size:12px;color:var(--dim,#5c5c6b);
 }
 .fc-pop-no:hover{color:var(--fg,#0b0912);text-decoration:underline;text-underline-offset:3px}
-.fc-pop-no:focus-visible{outline:2px solid var(--accent,#00ff9d);outline-offset:-2px}
+.fc-pop-no:focus-visible{outline:2px solid var(--accent,#5aa9ff);outline-offset:-2px}
 
 /* close: quiet until it is actually wanted */
 .fc-pop-x{
@@ -230,7 +230,7 @@
   color:var(--dim,#5c5c6b);font-size:0;opacity:.65;transition:opacity .12s,background .12s;
 }
 .fc-pop-x:hover{opacity:1;background:color-mix(in srgb,var(--dim,#5c5c6b) 12%,transparent)}
-.fc-pop-x:focus-visible{opacity:1;outline:1.5px solid var(--accent,#00ff9d);outline-offset:1px}
+.fc-pop-x:focus-visible{opacity:1;outline:1.5px solid var(--accent,#5aa9ff);outline-offset:1px}
 
 @media (max-width:520px){
   .fc-pop-eyebrow,.fc-pop-card h3,.fc-pop-lede{margin-left:22px;margin-right:22px}
@@ -246,10 +246,10 @@
   /* matches the !important the base rule needs to survive host themes — without
      it the base declaration would win here and the modal fill would go back to
      full strength */
-  background:color-mix(in srgb,var(--accent,#00ff9d) 88%,#0b0912) !important;
-  box-shadow:0 1px 0 color-mix(in srgb,var(--accent,#00ff9d) 40%,transparent) inset;
+  background:color-mix(in srgb,var(--accent,#5aa9ff) 88%,#0b0912) !important;
+  box-shadow:0 1px 0 color-mix(in srgb,var(--accent,#5aa9ff) 40%,transparent) inset;
 }
 .fc-pop-card .fc-cta-btn:hover{
-  background:var(--accent,#00ff9d) !important;filter:none;transform:none;
+  background:var(--accent,#5aa9ff) !important;filter:none;transform:none;
 }
 .fc-pop{background:rgba(6,5,12,.62);backdrop-filter:blur(2px)}
