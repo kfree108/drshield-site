@@ -1,0 +1,255 @@
+/* engagement.css — styling for the injected CTAs and the scroll popup.
+   Inherits the host page's tokens where they exist, with its own fallbacks,
+   so it drops onto any of the brand sites without a restyle. */
+
+.fc-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin: 34px 0;
+  padding: 20px 22px;
+  border: 1px solid var(--line, #e6e4ee);
+  border-left: 3px solid var(--accent,#00ff9d);
+  border-radius: 12px;
+  background: var(--card, var(--raised, #fff));
+}
+
+/* The button's text colour has to be chosen against the ACCENT, not fixed.
+ * No brand stylesheet defines --accent-fg, so this always fell back to
+ * #06231a — a near-black green picked for Dr. PPC's bright #00ff9d. That is
+ * fine on the three light accents and catastrophic on reMKTR, whose accent is
+ * a dark purple (#6e19ad): measured 1.90:1 on the inline buttons and 1.67:1
+ * in the popup, i.e. an unreadable button on all 125 generated remktr.com
+ * pages. Same class of bug as the near-black-on-near-black card below, one
+ * layer further in — and it would come back for any future brand whose accent
+ * happens to be dark.
+ *
+ * So derive the foreground from the accent's own lightness instead of asking
+ * every brand to remember a token: oklch relative colour resolves the clamp to
+ * 0 (black) when the accent is light and 1 (white) when it is dark. A brand
+ * that DOES set --accent-fg still wins, because the base declaration is what
+ * the @supports block overrides. */
+.fc-cta-btn {
+  display: inline-block;
+  padding: 11px 20px;
+  border-radius: 8px;
+  background: var(--accent,#00ff9d) !important;
+  /* !important because this button is injected into host pages we do not
+     control the stylesheets of. remktr.com's HubSpot theme carries
+     `a:not(...):not(...)` with seven :not() clauses — specificity (0,8,1) —
+     which captured the button's colour and painted it #131015. That went
+     unnoticed while the accent fallback was teal (#131015 on #2dd4a7 is an
+     accidental 7.8:1) and became a 2.79:1 button the moment the fallback
+     became reMKTR's purple. A widget dropped onto someone else's page has to
+     hold its own colours or it is only ever accidentally readable. */
+  color: var(--accent-fg, #06231a) !important;
+  font-weight: 650;
+  font-size: 14.5px;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: transform .12s ease, filter .12s ease;
+}
+@supports (color: oklch(from red l c h)) {
+  .fc-cta-btn {
+    color: var(--accent-fg,
+      oklch(from var(--accent,#00ff9d) clamp(0, (l - 0.62) * -1000, 1) 0 0))
+      !important;
+  }
+}
+.fc-cta-btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
+.fc-cta-btn:focus-visible {
+  outline: 2px solid var(--accent,#00ff9d);
+  outline-offset: 3px;
+}
+
+.fc-cta-sub {
+  font-size: 12.5px;
+  color: var(--dim, #5c5c6b);
+}
+
+/* ── popup ─────────────────────────────────────────────────────────────── */
+.fc-pop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(6, 5, 12, .55);
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.fc-pop.on { opacity: 1; }
+
+/* The card takes BOTH its background and its text colour from the same token
+ * set, or it renders one theme's text on the other theme's ground. It did:
+ * drppc.ai defines --card as #0e0b1a (near-black) and does not define --ink at
+ * all, so the background came out near-black and the text fell back to
+ * #0b0912 — near-black on near-black. The heading and every spec value were
+ * invisible, while the labels and lede stayed readable because they use --dim.
+ * --fg is the companion of --card on every one of our sites; --ink was never
+ * defined on any of them. */
+.fc-pop-card {
+  position: relative;
+  max-width: 430px;
+  width: 100%;
+  padding: 30px 30px 26px;
+  border-radius: 16px;
+  background: var(--card, var(--raised, #fff));
+  color: var(--fg, #0b0912);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+  transform: translateY(10px) scale(.98);
+  transition: transform .2s ease;
+}
+.fc-pop.on .fc-pop-card { transform: none; }
+
+.fc-pop-card h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.fc-pop-card p {
+  margin: 0 0 20px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--dim, #5c5c6b);
+}
+
+.fc-pop-x {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--dim, #5c5c6b);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+/* --soft is undefined on every brand, so this flashed a light-grey square
+   on a dark card. Tint from the card's own foreground instead. */
+.fc-pop-x:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.fc-pop-x:focus-visible {
+  outline: 2px solid var(--accent,#00ff9d);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fc-pop, .fc-pop-card, .fc-cta-btn { transition: none; }
+  .fc-cta-btn:hover { transform: none; }
+}
+
+@media (max-width: 520px) {
+  .fc-cta { flex-direction: column; align-items: flex-start; padding: 17px 18px; }
+  .fc-pop-card { padding: 26px 22px 22px; }
+}
+
+
+/* ── popup ────────────────────────────────────────────────────────────────
+   Rebuilt after review. What made the first version read as generated:
+   coloured dot bullets, uniform spacing with no rhythm, a floating proof
+   line, and a loud saturated button. This version uses a specification list
+   with hairline rules, a real hierarchy of sizes, and a bordered credibility
+   strip — the visual language of a product sheet rather than a promo card. */
+
+.fc-pop-card{
+  padding:0;                       /* sections own their own padding now */
+  overflow:hidden;
+  border:1px solid var(--line,#e6e4ee);
+  box-shadow:0 20px 56px rgba(0,0,0,.30);
+}
+/* a single hairline of accent at the top edge, instead of colour everywhere */
+/* a whisper of accent at the top edge — enough to belong, not enough to shout */
+.fc-pop-card::before{
+  content:"";display:block;height:2px;
+  background:linear-gradient(90deg,
+    color-mix(in srgb,var(--accent,#00ff9d) 70%,transparent),transparent 70%);
+}
+
+/* Scoped to .fc-pop-card, not bare, because `.fc-pop-card p` further up is
+   (0,1,1) and a bare `.fc-pop-eyebrow` is only (0,1,0) — so the generic
+   paragraph rule was winning both the size and the margin. The eyebrow was
+   rendering as 14.5px full-bleed uppercase with a 20px gap under it instead
+   of a 9.5px micro-label inset to match the heading, on every popup on all
+   five brands. The lede below already carries !important for exactly this
+   collision; raising specificity fixes it without adding a second one. */
+.fc-pop-card p.fc-pop-eyebrow{
+  margin:22px 30px 0;font-size:9.5px;font-weight:700;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--dim,#5c5c6b);
+}
+.fc-pop-card h3{
+  margin:9px 30px 0;font-size:23px;line-height:1.18;letter-spacing:-.022em;
+  text-wrap:balance;
+}
+.fc-pop-lede{
+  margin:11px 30px 0!important;font-size:14px!important;line-height:1.62;
+  color:var(--dim,#5c5c6b);
+}
+
+/* specification list — key on the left, value on the right, hairline between */
+.fc-pop-spec{margin:20px 0 0;padding:0;border-top:1px solid var(--line,#e6e4ee)}
+.fc-pop-spec>div{
+  display:grid;grid-template-columns:96px 1fr;gap:14px;
+  padding:10px 30px;border-bottom:1px solid var(--line,#e6e4ee);
+}
+.fc-pop-spec dt{
+  margin:0;font-size:9.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--dim,#5c5c6b);padding-top:2px;
+}
+.fc-pop-spec dd{margin:0;font-size:13px;line-height:1.5}
+
+.fc-pop-card .fc-cta-btn{
+  display:block;margin:22px 30px 0;text-align:center;
+  padding:13px 20px;font-size:14.5px;letter-spacing:-.005em;
+  border-radius:9px;
+}
+.fc-pop-proof{
+  margin:16px 0 0!important;padding:11px 30px;
+  border-top:1px solid var(--line,#e6e4ee);
+  background:color-mix(in srgb,var(--dim,#5c5c6b) 5%,transparent);
+  font-size:11.5px!important;line-height:1.55;color:var(--dim,#5c5c6b);
+  font-variant-numeric:tabular-nums;
+}
+.fc-pop-no{
+  display:block;width:100%;margin:0;padding:11px 0 15px;
+  background:none;border:0;cursor:pointer;
+  font:inherit;font-size:12px;color:var(--dim,#5c5c6b);
+}
+.fc-pop-no:hover{color:var(--fg,#0b0912);text-decoration:underline;text-underline-offset:3px}
+.fc-pop-no:focus-visible{outline:2px solid var(--accent,#00ff9d);outline-offset:-2px}
+
+/* close: quiet until it is actually wanted */
+.fc-pop-x{
+  top:14px;right:14px;width:28px;height:28px;
+  display:grid;place-items:center;border-radius:7px;
+  color:var(--dim,#5c5c6b);font-size:0;opacity:.65;transition:opacity .12s,background .12s;
+}
+.fc-pop-x:hover{opacity:1;background:color-mix(in srgb,var(--dim,#5c5c6b) 12%,transparent)}
+.fc-pop-x:focus-visible{opacity:1;outline:1.5px solid var(--accent,#00ff9d);outline-offset:1px}
+
+@media (max-width:520px){
+  .fc-pop-eyebrow,.fc-pop-card h3,.fc-pop-lede{margin-left:22px;margin-right:22px}
+  .fc-pop-spec>div{padding-left:22px;padding-right:22px;grid-template-columns:84px 1fr;gap:11px}
+  .fc-pop-card .fc-cta-btn{margin-left:22px;margin-right:22px}
+  .fc-pop-proof{padding-left:22px;padding-right:22px}
+  .fc-pop-card h3{font-size:20px}
+}
+
+/* The full-strength accent is fine inline, but at modal size on a dark ground it
+   glares. Dial the fill back and let the border and weight carry it instead. */
+.fc-pop-card .fc-cta-btn{
+  /* matches the !important the base rule needs to survive host themes — without
+     it the base declaration would win here and the modal fill would go back to
+     full strength */
+  background:color-mix(in srgb,var(--accent,#00ff9d) 88%,#0b0912) !important;
+  box-shadow:0 1px 0 color-mix(in srgb,var(--accent,#00ff9d) 40%,transparent) inset;
+}
+.fc-pop-card .fc-cta-btn:hover{
+  background:var(--accent,#00ff9d) !important;filter:none;transform:none;
+}
+.fc-pop{background:rgba(6,5,12,.62);backdrop-filter:blur(2px)}
