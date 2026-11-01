@@ -395,6 +395,10 @@ footer{border-top:1px solid var(--line2);padding:44px 0 100px;margin-top:24px}
 .family .lb{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .family a{color:var(--mute)}
 .family a:hover{color:var(--ink)}
+.guides{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:30px;font-size:14.5px;align-items:center}
+.guides .lb{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.guides a{color:var(--mute)}.guides a:hover{color:var(--ink)}
+.guides + .family{margin-top:16px}
 .legal{margin-top:20px;font-size:12.5px;color:var(--dim);max-width:980px;line-height:1.6}
 
 /* cursor */
@@ -477,7 +481,7 @@ gtag('js',new Date());gtag('config','G-Z6TG215NW7');</script>
     Dr.&nbsp;Shield
   </a>
   <nav class="nav-links" aria-label="Sections">
-    <a href="#command">Command center</a><a href="#hourly">Hourly watch</a><a href="#sameday">Same day</a><a href="#playbooks">Playbooks</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
+    <a href="#command">Command center</a><a href="#hourly">Hourly watch</a><a href="#sameday">Same day</a><a href="#playbooks">Playbooks</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><!-- loop:guides --><a href="/learn/">Guides</a><!-- /loop:guides -->
   </nav>
   <div class="scan-chip" aria-live="off"><span class="dot"></span><span id="scanChip">On watch · 24/7</span></div>
   <a class="btn btn-primary mag" href="#waitlist">Join the waitlist</a>
@@ -870,13 +874,24 @@ gtag('js',new Date());gtag('config','G-Z6TG215NW7');</script>
       </div>
       <a class="btn btn-primary mag" href="#waitlist">Join the waitlist</a>
     </div>
+    <!-- loop:guides -->
+    <nav class="guides" aria-label="Case guides">
+      <span class="lb">Case guides —</span>
+      <a href="/learn/">All guides</a>
+      <a href="/learn/amazon-account-reinstatement/">Account reinstatement</a>
+      <a href="/learn/amazon-account-health/">Account health</a>
+      <a href="/learn/amazon-plan-of-action-used-sold-as-new/">Plan of Action: used sold as new</a>
+      <a href="/learn/amazon-plan-of-action-late-shipment-example/">Plan of Action: late shipment</a>
+      <a href="/learn/amazon-counterfeit-items/">Counterfeit items</a>
+      <a href="/compare/getida-review/">GETIDA review</a>
+    </nav>
+    <!-- /loop:guides -->
     <nav class="family" aria-label="Family of brands">
       <span class="lb">The family</span>
       <a href="https://fullcircleagency.com">Full Circle Agency</a>
       <a href="https://fullcircleorbit.com">Orbit</a>
       <a href="https://drppc.ai">Dr. PPC</a>
       <a href="https://drstock.ai">Dr. Stock</a>
-      <a href="https://remktr.com">reMKTR</a>
       <a href="https://remktr.com">reMKTR</a>
     </nav>
     <p class="legal">© 2026 Dr. Shield · drshield.ai · an Orbit agent from the Full Circle group. Powered by Opus 5.5. Opus 5.5 is Anthropic’s; ours is the system around it. Dr. Shield is software, not a human employee and not a legal service. No agent can guarantee an account against suspension, delisting or any Amazon decision; “same day” refers to our team filing the case, not Amazon’s response. All alerts, scenes, charts and timelines on this page are demo scenarios, not client accounts. Portfolio figures are Full Circle’s, periods as footnoted.</p>
